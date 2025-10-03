@@ -1,31 +1,49 @@
-#include <iostream>
-#include <vector>
-#include <cstdlib>
-#include <string>
-using namespace std;
+#include <iostream>   // lets us use cout for printing to the screen
+#include <vector>     // lets us use vectors (like a flexible array)
+#include <cstdlib>    // gives us access to rand() for random numbers
+#include <ctime>      // gives us time() so we can seed the random generator
+#include <string>     // lets us use strings like "Heads" and "Tails"
+
+using namespace std;  // saves us from typing std:: in front of everything
 
 int main() {
-    //srand(123); // Seed the random number generator
+    // Seed the random number generator with the current time
+    // This makes the random numbers different each time you run the program
+    srand(time(0));
 
-    // Flip a coin 500 times
-    std::vector <std::string> coinFlips;
-    string coinFlipResult = "";
-    
-    // write a for loop that iternates over 500 flips and counts heads or tails in the coinFlips vector
+    // Create a vector to store the results of 500 coin flips
+    vector<string> coinFlips;
 
+    // Flip the coin 500 times
+    for (int i = 0; i < 500; i++) {
+        int randomNumber = rand();   // generate a random number
+        string result;               // store result as "Heads" or "Tails"
 
-    // Count the number of heads
+        // Use % (modulus) to check if randomNumber is even or odd
+        if (randomNumber % 2 == 0) {
+            result = "Heads";   // even = Heads
+        } else {
+            result = "Tails";   // odd = Tails
+        }
+
+        // Add this result to the vector
+        coinFlips.push_back(result);
+    }
+
+    // Now count the number of heads
     int headsCount = 0;
-
-    //handy code to iterate through a vector.  I'll give this to you for future reference.
-    //the auto& is a nice way to have c++ declare the variable as whatever type the variable that follows is first assigned to!  In this case it will be a String, because conflips is declared that way earlier
-    for (const auto& flip : coinFlips) {  
+    for (const auto& flip : coinFlips) {  // loop through every flip in the vector
         if (flip == "Heads") {
-            ++headsCount;
+            headsCount++;  // add 1 to headsCount if we see "Heads"
         }
     }
-    std::cout << "Number of Heads: " <<  headsCount << '\n';
-    std::cout << "Number of Tails: " << coinFlips.size() - headsCount << '\n';
 
-    return 0;
+    // The number of tails is total flips minus the number of heads
+    int tailsCount = coinFlips.size() - headsCount;
+
+    // Print the results
+    cout << "Number of Heads: " << headsCount << endl;
+    cout << "Number of Tails: " << tailsCount << endl;
+
+    return 0; // program ends here
 }
